@@ -1,9 +1,10 @@
 [package]
 name = "fasta_split"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Simon Penel <simon.penel@univ-lyon1.fr>"]
 description = "Split a fasta file into several fasta files"
+repository = "https://github.com/simonpenel/fasta_split"
 readme = "README.md"
 license-file = "LICENSE"
 keywords = ["bioinformatics", "fasta"]
