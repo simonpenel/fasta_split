@@ -1,5 +1,5 @@
 [package]
-name = "fasta_rust"
+name = "fasta_split"
 version = "0.1.0"
 edition = "2021"
 
