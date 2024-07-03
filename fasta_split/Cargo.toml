@@ -2,9 +2,11 @@
 name = "fasta_split"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
+authors = ["Simon Penel <simon.penel@univ-lyon1.fr>"]
+description = "Split a fasta file into several fasta files"
+readme = "README.md"
+license-file = "LICENSE"
+keywords = ["bioinformatics", "fasta"]
 [dependencies]
 bio = "1.5.0"
 bio-types = "1.0.0"
