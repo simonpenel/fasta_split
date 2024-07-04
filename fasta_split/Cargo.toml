@@ -1,6 +1,6 @@
 [package]
 name = "fasta_split"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 authors = ["Simon Penel <simon.penel@univ-lyon1.fr>"]
 description = "Split a fasta file into several fasta files"

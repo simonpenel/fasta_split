@@ -1,24 +1,13 @@
 # Split a fasta file into several fasta files
 
+https://crates.io/crates/fasta_split
+
+https://github.com/simonpenel/fasta_split/
 
 # Install
 
-`cd fasta_split`
 
-`cargo build --release` 
-
-
-or
 `cargo install fasta_split`
-
-
-# Run
-
-`target/release/fasta-split -h`
-
-or
-
-`fasta-split -h `
 
 
 # Usage
