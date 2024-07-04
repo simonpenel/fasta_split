@@ -17,9 +17,9 @@ struct Cli {
     /// FASTA INPUT (file path or stdin)
     fasta_file : std::path::PathBuf,    // Fichier fasta
     /// FAM_FILE INPUT (file path)
-	fam_file : String,    				// Fichier famille
-	/// Include orphan families
-	#[arg(long,default_value_t = false)]
+    fam_file : String,    				// Fichier famille
+    /// Include orphan families
+    #[arg(long,default_value_t = false)]
     orphans : bool,                     // Traite les orphans,
 
 }
@@ -33,31 +33,29 @@ struct FastaSeq {
 }
 // Lecture FAM_FILE
 fn read_families(filename :String) -> HashMap::<String,Vec<String>>{
- 	let file = File::open(filename);
+    let file = File::open(filename);
     let file = match file {
-    	Ok(file) => file,
-    	Err(_e) => {
-			panic!("Unable top open FAM_FILE")
+        Ok(file) => file,
+        Err(_e) => {
+		  panic!("Unable top open FAM_FILE")
     	},
     };
-	let reader = BufReader::new(file);
-	let mut dico =  HashMap::<String,Vec<String>>::new();
+    let reader = BufReader::new(file);
+    let mut dico =  HashMap::<String,Vec<String>>::new();
     for line in reader.lines() {
         let line = line.expect("Error in FAM_FILE.");
         let split_line: Vec<&str> = line.split('\t').collect();
         assert_eq!(split_line.len(), 2, "Wrong format in FAM_FILE.");
         let fam = split_line[0].to_string();
         let seq = split_line[1].to_string();
-        
         if !dico.contains_key(&fam) {
-                dico.insert(fam.clone(),vec![]);
-            };
+            dico.insert(fam.clone(),vec![]);
+        };
         if let Some(x) = dico.get_mut(&fam) {
-                x.push(seq);
-            };
-
-	}
-	dico
+            x.push(seq);
+        };
+    }
+    dico
 }
 //  Ouverture FASTA
 fn traverse_fasta_file(path : &str) -> FastaSeqs {
@@ -90,7 +88,8 @@ fn processing_fasta<B>(reader: fasta::Reader<B>) -> FastaSeqs where B: BufRead{
                 	Some(desc)  => Some(desc.to_string()),
                 	None => None,
                 }
-            });
+            }
+        );
     }
     fastaseqs
 }
@@ -113,21 +112,21 @@ fn main() {
             panic!("Sequence {} already exists.",fastas[i].id);
         }
     }
-	for (key, value) in fam_dico {
-		if (value.len() > 1) || args.orphans { 
-	 		let filename = key+".fasta";
-    		let file = File::create(filename).unwrap();
-    		let handle = BufWriter::new(file);
-	 		let mut writer = Writer::new(handle);
-	 		for seq in value {
-	 			let idx = match dico_sequence_index.get(&seq){
-	 				Some(idx) => *idx,
-	 				None => panic!("Sequence {} not found.",seq),
-	 			};
-            	let record = fasta::Record::with_attrs(&fastas[idx].id.clone(), fastas[idx].desc.as_deref(), &fastas[idx].seq);
-            	writer.write_record(&record).expect("Unable to write output file.");
-	 		}
-	 	}
-	}
-	println!("done.");
+    for (key, value) in fam_dico {
+        if (value.len() > 1) || args.orphans { 
+            let filename = key+".fasta";
+            let file = File::create(filename).unwrap();
+            let handle = BufWriter::new(file);
+            let mut writer = Writer::new(handle);
+            for seq in value {
+                let idx = match dico_sequence_index.get(&seq){
+                    Some(idx) => *idx,
+                    None => panic!("Sequence {} not found.",seq),
+                };
+                let record = fasta::Record::with_attrs(&fastas[idx].id.clone(), fastas[idx].desc.as_deref(), &fastas[idx].seq);
+                writer.write_record(&record).expect("Unable to write output file.");
+            }
+        }
+    }
+    println!("done.");
 }
